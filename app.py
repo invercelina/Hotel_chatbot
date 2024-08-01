@@ -76,7 +76,16 @@ def response(user_response, all_questions, ques_ans_pairs, normalized_tokens):
 st.markdown("""
     <style>
     .user-bubble {
-        background-color: #DCF8C6;
+        background-color: #ADD8E6;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 10px;
+        text-align: left;
+        width: fit-content;
+        max-width: 70%;
+    }
+    .bot-bubble {
+        background-color: #F1F0F0;
         border-radius: 10px;
         padding: 10px;
         margin: 10px;
@@ -84,15 +93,6 @@ st.markdown("""
         width: fit-content;
         max-width: 70%;
         margin-left: auto;
-    }
-    .bot-bubble {
-        background-color: #F1F0F0;
-        border-radius: 10px;
-        padding: 10px;
-        margin: 10px;
-        text-align: left;
-        width: fit-content;
-        max-width: 70%;
     }
     .chat-container {
         display: flex;
