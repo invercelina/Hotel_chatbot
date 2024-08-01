@@ -5,6 +5,10 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 import string
 
+# NLTK 데이터 다운로드
+nltk.download('punkt')
+nltk.download('wordnet')
+
 # 텍스트 파일에서 데이터 읽기
 def read_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -87,4 +91,5 @@ try:
             st.write(chat)
 except FileNotFoundError as e:
     st.error(f"Error: {e}")
+
 
