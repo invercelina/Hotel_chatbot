@@ -9,6 +9,27 @@ import string
 nltk.download('punkt')
 nltk.download('wordnet')
 
+# 인사말 및 작별 인사 정의
+GREETING_INPUTS = ["hello", "hi", "greetings", "sup", "what's up", "hey", "hey there"]
+GREETING_RESPONSES = ["hi", "hey", "*nods*", "hi there", "hello", "I am glad! You are talking to me"]
+
+GOODBYE_INPUTS = ["bye", "see you!", "unit", "exit"]
+GOODBYE_RESPONSES = ["Goodbye!", "See you later!", "Take care!", "Farewell!"]
+
+# 인사말을 수신하고 반환하는 함수
+def greeting(sentence):
+    for word in sentence.split(): # 문장의 각 단어를 살펴봅니다.
+        if word.lower() in GREETING_INPUTS: # 단어가 GREETING_INPUT와 일치하는지 확인합니다.
+            return random.choice(GREETING_RESPONSES) # Greeting_Response로 답장합니다.
+    return None
+
+# 끝인삿말을 수신하고 반환하는 함수
+def goodbye(sentence):
+    for word in sentence.split():
+        if word.lower() in GOODBYE_INPUTS:
+            return random.choice(GOODBYE_RESPONSES)
+    return None
+
 # 텍스트 파일에서 데이터 읽기
 def read_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -74,22 +95,33 @@ try:
         # 챗봇 상호작용
         if 'chat_history' not in st.session_state:
             st.session_state.chat_history = []
+            st.session_state.chat_history.append("Jane: My name is Jane. I will answer your queries about this hotel. If you want to exit, type Bye!")
 
         user_input = st.text_input("You: ", key="input")
         if user_input:
             st.session_state.chat_history.append(f"You: {user_input}")
-            if user_input.lower() == 'bye':
-                st.session_state.chat_history.append("Jane: Goodbye! Take care!")
-            elif user_input.lower() in ['thanks', 'thank you']:
-                st.session_state.chat_history.append("Jane: You are welcome..")
+            
+            # 인사말 처리
+            greet_response = greeting(user_input)
+            if greet_response:
+                st.session_state.chat_history.append(f"Jane: {greet_response}")
             else:
-                normalized_tokens = LemNormalize(' '.join(all_questions))
-                answer = response(user_input, all_questions, ques_ans_pairs, normalized_tokens)
-                st.session_state.chat_history.append(f"Jane: {answer}")
+                # 끝인사 처리
+                bye_response = goodbye(user_input)
+                if bye_response:
+                    st.session_state.chat_history.append(f"Jane: {bye_response}")
+                else:
+                    if user_input.lower() in ['thanks', 'thank you']:
+                        st.session_state.chat_history.append("Jane: You are welcome..")
+                    else:
+                        normalized_tokens = LemNormalize(' '.join(all_questions))
+                        answer = response(user_input, all_questions, ques_ans_pairs, normalized_tokens)
+                        st.session_state.chat_history.append(f"Jane: {answer}")
 
         for chat in st.session_state.chat_history:
             st.write(chat)
 except FileNotFoundError as e:
     st.error(f"Error: {e}")
+
 
 
