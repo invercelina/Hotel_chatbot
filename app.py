@@ -72,35 +72,6 @@ def response(user_response, all_questions, ques_ans_pairs, normalized_tokens):
 
     return robo_response
 
-# Custom CSS for chat bubbles
-st.markdown("""
-    <style>
-    .user-bubble {
-        background-color: #ADD8E6;
-        border-radius: 10px;
-        padding: 10px;
-        margin: 10px;
-        text-align: left;
-        width: fit-content;
-        max-width: 70%;
-    }
-    .bot-bubble {
-        background-color: #F1F0F0;
-        border-radius: 10px;
-        padding: 10px;
-        margin: 10px;
-        text-align: right;
-        width: fit-content;
-        max-width: 70%;
-        margin-left: auto;
-    }
-    .chat-container {
-        display: flex;
-        flex-direction: column-reverse;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
 # Streamlit 인터페이스
 st.title("Hotel Chatbot")
 
@@ -126,10 +97,7 @@ try:
             st.session_state.chat_history = []
             st.session_state.chat_history.append("Jane: My name is Jane. I will answer your queries about this hotel. If you want to exit, type Bye!")
 
-        if 'input' not in st.session_state:
-            st.session_state.input = ""
-
-        user_input = st.text_input("You: ", value=st.session_state.input, key="input", on_change=lambda: st.session_state.update(input=""))
+        user_input = st.text_input("You: ", key="input")
         if user_input:
             st.session_state.chat_history.append(f"You: {user_input}")
             
@@ -150,16 +118,8 @@ try:
                         answer = response(user_input, all_questions, ques_ans_pairs, normalized_tokens)
                         st.session_state.chat_history.append(f"Jane: {answer}")
 
-            # Clear the input field by updating its state
-            st.session_state.input = ""
-
-        # Display chat history in reversed order with custom styling
-        for chat in reversed(st.session_state.chat_history):
-            if chat.startswith("You: "):
-                st.markdown(f"<div class='user-bubble'>{chat}</div>", unsafe_allow_html=True)
-            else:
-                st.markdown(f"<div class='bot-bubble'>{chat}</div>", unsafe_allow_html=True)
-
+        for chat in st.session_state.chat_history:
+            st.write(chat)
 except FileNotFoundError as e:
     st.error(f"Error: {e}")
 
