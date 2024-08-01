@@ -118,8 +118,8 @@ try:
                         normalized_tokens = LemNormalize(' '.join(all_questions))
                         answer = response(user_input, all_questions, ques_ans_pairs, normalized_tokens)
                         st.session_state.chat_history.append(f"Jane: {answer}")
-
-        with st.expander("Chat History", expanded=True):
+        chat_history = st.columns(1)
+        with chat_history:
             for chat in st.session_state.chat_history:
                 if "You:" in chat:
                     st.write(f'<div style="display:flex;align-items:center;"><div style="background-color:#007AFF;color:white;border-radius:12px;padding:8px 12px;margin-right:8px;">{chat}</div></div>', unsafe_allow_html=True)
