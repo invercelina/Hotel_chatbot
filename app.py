@@ -147,6 +147,9 @@ try:
                         answer = response(user_input, all_questions, ques_ans_pairs, normalized_tokens)
                         st.session_state.chat_history.append(f"Jane: {answer}")
 
+            # Clear input field after submission
+            st.experimental_rerun()
+
         # Display chat history in reversed order with custom styling
         for chat in reversed(st.session_state.chat_history):
             if chat.startswith("You: "):
@@ -156,4 +159,5 @@ try:
 
 except FileNotFoundError as e:
     st.error(f"Error: {e}")
+
 
