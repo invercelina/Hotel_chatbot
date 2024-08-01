@@ -126,7 +126,10 @@ try:
             st.session_state.chat_history = []
             st.session_state.chat_history.append("Jane: My name is Jane. I will answer your queries about this hotel. If you want to exit, type Bye!")
 
-        user_input = st.text_input("You: ", key="input")
+        if 'input' not in st.session_state:
+            st.session_state.input = ""
+
+        user_input = st.text_input("You: ", value=st.session_state.input, key="input", on_change=lambda: st.session_state.update(input=""))
         if user_input:
             st.session_state.chat_history.append(f"You: {user_input}")
             
@@ -147,8 +150,8 @@ try:
                         answer = response(user_input, all_questions, ques_ans_pairs, normalized_tokens)
                         st.session_state.chat_history.append(f"Jane: {answer}")
 
-            # Clear input field after submission
-            st.experimental_rerun()
+            # Clear the input field by updating its state
+            st.session_state.input = ""
 
         # Display chat history in reversed order with custom styling
         for chat in reversed(st.session_state.chat_history):
