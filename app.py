@@ -4,7 +4,6 @@ import random
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 import string
-from datetime import datetime
 
 # NLTK 데이터 다운로드
 nltk.download('punkt')
@@ -118,12 +117,9 @@ try:
                         normalized_tokens = LemNormalize(' '.join(all_questions))
                         answer = response(user_input, all_questions, ques_ans_pairs, normalized_tokens)
                         st.session_state.chat_history.append(f"Jane: {answer}")
-        
-        for chat in st.session_state.chat_history:
-            if "You:" in chat:
-                st.write(f'<div style="display:flex;align-items:center;"><div style="background-color:#007AFF;color:white;border-radius:12px;padding:8px 12px;margin-right:8px;">{chat}</div></div>', unsafe_allow_html=True)
-            else:
-                st.write(f'<div style="display:flex;align-items:center;justify-content:flex-end;"><div style="background-color:lightgray;border-radius:12px;padding:8px 12px;margin-left:8px;">{chat}</div></div>', unsafe_allow_html=True)
+
+        for chat in reversed(st.session_state.chat_history):
+            st.write(chat)
 except FileNotFoundError as e:
     st.error(f"Error: {e}")
 
