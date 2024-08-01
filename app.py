@@ -118,10 +118,7 @@ try:
                         answer = response(user_input, all_questions, ques_ans_pairs, normalized_tokens)
                         st.session_state.chat_history.append(f"Jane: {answer}")
 
-        for chat in st.session_state.chat_history:
+        for chat in reversed(st.session_state.chat_history):
             st.write(chat)
 except FileNotFoundError as e:
     st.error(f"Error: {e}")
-
-
-
