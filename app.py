@@ -44,7 +44,7 @@ def LemNormalize(text):
     remove_punct_dict = dict((ord(punct), None) for punct in string.punctuation)
     return LemTokens(nltk.word_tokenize(text.lower().translate(remove_punct_dict)))
 
-def response(user_response, all_questions, ques_ans_pairs, normalized_tokens):
+def response(user_response, all_questions, ques_ans_pairs):
     robo_response = ''
     all_questions.append(user_response)  # 사용자 응답을 추가
 
@@ -115,8 +115,7 @@ try:
                     if user_input.lower() in ['thanks', 'thank you']:
                         st.session_state.chat_history.append("Jane: You are welcome..")
                     else:
-                        normalized_tokens = LemNormalize(' '.join(all_questions))
-                        answer = response(user_input, all_questions, ques_ans_pairs, normalized_tokens)
+                        answer = response(user_input, all_questions, ques_ans_pairs)
                         st.session_state.chat_history.append(f"Jane: {answer}")
             
         for chat in st.session_state.chat_history:
