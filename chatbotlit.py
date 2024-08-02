@@ -6,6 +6,8 @@ import torch
 import torch.nn.functional as F
 from sklearn.metrics.pairwise import cosine_similarity
 
+nltk.download('punkt')
+nltk.download('wordnet')
 # 파일 경로
 questions_file_path = '[Dataset] Module27(ques).txt'
 answers_file_path = '[Dataset] Module27 (ans).txt'
