@@ -1,4 +1,6 @@
 streamlit
+pandas
 nltk
-numpy
+transformers
+torch
 scikit-learn
